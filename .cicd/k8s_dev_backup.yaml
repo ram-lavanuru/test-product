@@ -13,8 +13,6 @@ spec:
       labels:
         app: i27-product-dev
     spec:
-      # imagePullSecrets:
-      # - name: jfrog-docker-secret
       containers:
       - name: i27-product-dev
         image: DIT # Docker Image Tag, which will be replaces later by sharedlib
@@ -29,6 +27,26 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8761
-  # type: ClusterIP
+      targetPort: 8132
+      nodePort: 30001
+  #type: ClusterIP
   type: NodePort
+
+---
+# Create a ingress for product-dev.i27carts.in
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: i27-product-dev-ingress
+# spec:
+#   rules:
+#   - host: product-dev.i27carts.in
+#     http:
+#       paths: 
+#       - pathType: Prefix
+#         path: "/"
+#         backend:
+#           service:
+#             name: i27-product-dev-svc
+#             port:
+#               number: 80
